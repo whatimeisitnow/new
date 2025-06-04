@@ -11,7 +11,7 @@ services:
       - .:/app
       - ./static:/app/static
     networks:
-      - server
+      - cerbot
 
   nginx: # nginx 컨테이너
     image: nginx:latest
@@ -28,7 +28,7 @@ services:
     depends_on:
       - web
     networks:
-      - server
+      - cerbot
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
     
   certbot:
@@ -41,4 +41,4 @@ services:
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 networks:
-  server:
+  cerbot:
